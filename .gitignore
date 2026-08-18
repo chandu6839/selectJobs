@@ -1,0 +1,6 @@
+sessions/
+debug/
+job_matches.xlsx
+processed_jobs.json
+__pycache__/
+*.pyc

@@ -54,26 +54,50 @@ playwright install chromium
 ## Run
 
 ```bash
-python main.py
+python main.py           # config.DEFAULT_SEARCH_COUNTRY only (Germany)
+python main.py others    # every OTHER configured country, one after another in this same run
 ```
 
+`others` currently covers: Netherlands, Ireland, United Kingdom,
+Switzerland, Austria, Denmark, Sweden, Norway, Finland, Luxembourg - see
+`config.LINKEDIN_SEARCH_COUNTRIES` (add more there the same way: search
+that location manually on linkedin.com/jobs and copy the `geoId=` value
+out of the resulting URL - `others` picks up any new entry automatically).
+
+You can also target one specific country directly if you don't want the
+full `others` sweep, e.g. `python main.py ireland` or `python main.py uk`
+(the UK entry also answers to `united-kingdom` / `"united kingdom"`
+quoted).
+
 For each target role in `candidate_profile.json`, it searches LinkedIn
-(location fixed to `config.LINKEDIN_SEARCH_LOCATION`, default `"Germany"`),
-merges/de-dupes the results, then for every new job:
+scoped to the country/countries for this run, merges/de-dupes the
+results per country, then for every new job:
 
 1. Extracts the Job Description.
-2. Pastes it into the open ChatGPT conversation, gets back
+2. If the job's company is already in `excluded_companies.json` (a
+   company you've already saved a job for), skips it entirely - no
+   ChatGPT call, no save - and logs it to Excel as `Match = SKIPPED`.
+3. Otherwise, pastes the JD into the open ChatGPT conversation, gets back
    `{match, score, matching_keywords, reason}`.
-3. If `match == "YES"` and `score >= matching_preferences.min_match_score_to_save`
-   (default 80), clicks LinkedIn's own **Save** button on the job.
-4. Appends a row to `job_matches.xlsx`: Date, Title, Company, URL, Score,
-   Match, Matching Keywords, Reason.
-5. Marks the job URL processed in `processed_jobs.json`, so re-running
+4. If `match == "YES"` and `score >= matching_preferences.min_match_score_to_save`
+   (default 80), clicks LinkedIn's own **Save** button on the job, and
+   adds the company to `excluded_companies.json` so future postings from
+   it get skipped automatically.
+5. Appends a row to `job_matches.xlsx`: Date, Country, Title, Company,
+   URL, Score, Match, Matching Keywords, Reason, Saved (`Yes` / `No` /
+   `Failed` / `Skipped (company excluded)`).
+6. Marks the job URL processed in `processed_jobs.json`, so re-running
    only picks up newly found jobs.
 
-`config.MAX_JOBS_PER_RUN` (default 25) caps how many jobs a single run
-processes - raise it once you're confident the selectors and ChatGPT
-parsing are working reliably for you.
+`config.MAX_JOBS_PER_RUN` (default `None` = no cap) limits how many jobs
+a single run processes, if you want to bound it.
+
+## Excluding companies
+
+`excluded_companies.json` is a plain JSON array of company names
+(case-insensitive match) - hand-edit it any time to pre-exclude a company
+(e.g. one you've applied to outside this tool, or just don't want to work
+for). It's also updated automatically whenever a job gets saved.
 
 ## Requeue previously-skipped jobs
 

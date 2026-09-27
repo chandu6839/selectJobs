@@ -1,0 +1,48 @@
+{
+  "name": "Your Full Name",
+  "contact": {
+    "email": "you@example.com",
+    "linkedin": "https://www.linkedin.com/in/your-profile/"
+  },
+  "years_of_experience": 10,
+  "target_roles": [
+    "Senior Frontend",
+    "Lead Frontend",
+    "Senior Full-Stack",
+    "React",
+    "Next.js"
+  ],
+  "location": {
+    "country": "Germany",
+    "current_city": "Your City",
+    "open_to_cities": ["Your City", "Remote (Germany)", "Hybrid (Germany)"],
+    "open_to_relocation_within_germany": true
+  },
+  "work_authorization": "Describe your work permit / visa status here",
+  "languages": {
+    "english": "Fluent / Professional working proficiency",
+    "german": "None | A1 | A2 | B1 | B2 | C1 | C2"
+  },
+  "skills": {
+    "core": ["React", "TypeScript", "JavaScript (ES6+)", "Next.js", "Node.js"],
+    "backend_and_data": ["Python", "REST APIs", "GraphQL", "PostgreSQL"],
+    "cloud_devops": ["AWS", "Docker", "Kubernetes", "CI/CD"],
+    "architecture": ["Frontend Architecture", "Microservices", "Design Patterns"],
+    "ai_tools": ["AI/LLM Integration", "Prompt Engineering"],
+    "other": ["Jest", "TDD", "Agile/Scrum"]
+  },
+  "domains": ["SaaS", "E-commerce"],
+  "seniority_levels": ["Senior", "Lead", "Staff"],
+  "matching_preferences": {
+    "min_match_score_to_save": 80,
+    "german_required_ok": false,
+    "employment_types": ["Full-time"],
+    "exclude_keywords": ["unpaid", "internship", "junior", "entry level", "commission only"],
+    "title_exclude_keywords": [
+      "intern", "praktikum", "praktikant", "werkstudent", "working student", "trainee", "ausbildung",
+      "designer", "devops", "sap", "director", "product manager", "project manager",
+      "data scientist", "support"
+    ],
+    "notes": "Free-text guidance for the matching step, e.g. which roles and locations to prioritise."
+  }
+}

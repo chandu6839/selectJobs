@@ -1,6 +1,32 @@
+# --- Secrets / session data - never commit these ---
 sessions/
-debug/
+
+# --- Personal data ---
+# Your real profile (name, email, LinkedIn, city). Commit only the template:
+# candidate_profile.example.json -> copy it to candidate_profile.json locally.
+candidate_profile.json
+# Companies you have applied to / saved jobs for
+excluded_companies.json
 job_matches.xlsx
 processed_jobs.json
+
+# --- Downloaded public visa-sponsor registers (large, re-downloadable) ---
+uk_sponsors.txt
+nl_ind_sponsors.txt
+
+# --- Debug artifacts (screenshots / HTML of logged-in pages) ---
+debug/
+
+# --- Logs ---
+logs/
+*.log
+
+# --- Python ---
 __pycache__/
 *.pyc
+.venv/
+venv/
+
+# --- OS ---
+.DS_Store
+Thumbs.db

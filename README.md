@@ -3,12 +3,12 @@
 Searches LinkedIn for jobs matching `candidate_profile.json`, sends each
 job's description into one ongoing ChatGPT conversation (your ChatGPT Pro
 account, via browser - no API key/quota used) for a YES/NO match verdict,
-auto-saves strong matches to LinkedIn Saved Jobs, and logs everything to
-an Excel file.
+queues strong matches for CV generation (optionally also clicking
+LinkedIn's Save), and logs everything to an Excel file.
 
 ```
 config.py                 <- paths, thresholds, search params
-candidate_profile.json    <- your roles, experience, skills, location, preferences
+candidate_profile.example.json <- template: copy to candidate_profile.json (gitignored) and fill in
 common.py                 <- processed-job tracking, debug snapshots, profile loading
 main.py                   <- runs the full pipeline end to end
 
@@ -32,15 +32,23 @@ pip install -r requirements.txt
 playwright install chromium
 ```
 
-1. **Edit `candidate_profile.json`** - it's pre-filled from your resume, but
-   two fields need your input before running:
+1. **Create your `candidate_profile.json`** by copying
+   `candidate_profile.example.json` and filling in your own details
+   (`candidate_profile.json` is gitignored - your name, email and profile
+   never end up in the repo). Check in particular:
+   - `target_roles` - one LinkedIn search runs per entry
    - `languages.german` - your real German level (None/A1/A2/B1/B2/C1)
    - `matching_preferences.german_required_ok` - `true`/`false`, whether
      jobs requiring German at your level are still fine to match on
+   - `matching_preferences.exclude_keywords` / `title_exclude_keywords` -
+     job titles containing these are skipped straight from the search card
 
-   Everything else (roles, skills, experience, location, work
-   authorization) is editable too - it's a plain JSON file ChatGPT is told
-   to match against.
+   Everything else (skills, experience, location, work authorization) is a
+   plain JSON file ChatGPT is told to match against.
+
+   Matching jobs are handed to the CV project (ApplyJobsAIAgent) through
+   `job_queue.json` - by default expected in a sibling folder named
+   `files`; set the `JOB_QUEUE_PATH` environment variable if yours differs.
 
 2. Capture your logged-in sessions (one time, or whenever one expires):
    ```bash

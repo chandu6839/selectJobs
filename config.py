@@ -101,7 +101,10 @@ MAX_JOBS_PER_RUN = int(os.environ.get("MAX_JOBS_PER_RUN", 15))  # env var overri
 # (files/orchestrator.py) through this queue file, JD included - so the
 # job page doesn't have to be opened again there, and no LinkedIn "Save"
 # click is needed at all.
-JOB_QUEUE_PATH = BASE_DIR.parent / "files" / "job_queue.json"
+# Default assumes the CV project (ApplyJobsAIAgent) is cloned next to this
+# repo in a folder named "files"; set the JOB_QUEUE_PATH environment variable
+# to <CV project folder>\job_queue.json if yours is named differently.
+JOB_QUEUE_PATH = Path(os.environ.get("JOB_QUEUE_PATH") or BASE_DIR.parent / "files" / "job_queue.json")
 
 # Also click LinkedIn's own "Save" button on matching jobs. Off by default:
 # the Save click (plus the extra page load it needs) is the most
